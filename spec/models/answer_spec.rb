@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
-  it { should belong_to(:answer) }
+  describe 'associations' do
+    it { should belong_to(:question) }
+  end
 
-  it{ should validate_presence_of :body }
+  describe 'validations' do
+    it{ should validate_presence_of :body }
+  end
 end
