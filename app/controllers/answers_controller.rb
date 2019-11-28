@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: %i[create]
-  # before_action :set_answer, only: %i[show]
+  before_action :set_answer, only: %i[destroy]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -11,6 +11,14 @@ class AnswersController < ApplicationController
     else
       render 'questions/show'
     end
+  end
+
+  def destroy
+    if @answer.user == current_user
+      @answer.destroy
+      flash[:notice] = 'Your answer was deleted'
+    end
+    redirect_to @answer.question
   end
 
   private
