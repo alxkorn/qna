@@ -3,5 +3,5 @@
     li
       = answer.body
       br 
-        - if answer.user == current_user
+        - if current_user&.owns?(answer)
           = link_to 'Delete', answer_path(answer), method: :delete
