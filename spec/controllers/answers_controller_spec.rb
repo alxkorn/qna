@@ -9,6 +9,12 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     before { login(user) }
     context 'with valid attributes' do
+      it 'creates association with user (creator)' do
+        post :create, params: { question_id: question, answer: attributes_for(:answer) }
+
+        expect(assigns(:answer).user).to eq user
+      end
+
       it 'assigns requested question to @question' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
         expect(assigns(:question)).to eq question
