@@ -9,7 +9,6 @@ h2 Answers
 
 ul
   = render @question.answers
-
-= render 'answers/form'
+= render 'answers/form', answer: @answer || @question.answers.new
 
 = link_to "Back", questions_path

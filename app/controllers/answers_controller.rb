@@ -1,9 +1,11 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_question, only: %i[create]
   # before_action :set_answer, only: %i[show]
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
     if @answer.save
       redirect_to @question
     else
