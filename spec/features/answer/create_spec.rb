@@ -8,6 +8,7 @@ As an authenticated user
 I'd like to be able to answer question
 " do
   given(:question) { create(:question) }
+
   describe 'Authenticated user' do
     given(:user) { create(:user) }
 

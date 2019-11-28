@@ -9,8 +9,11 @@ I'd like to be able to delete my own question
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given(:question_not_owned) { create(:question) }
+
   describe 'Authenticated user' do
+
     background { sign_in(user) }
+
     scenario 'deletes his own question' do
       visit question_path(question)
       click_on 'Delete', id: 'delete_question'

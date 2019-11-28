@@ -9,11 +9,13 @@ I'd like to be able to felete my own question
   given(:user) { create(:user) }
   given(:answer) { create(:answer, user: user) }
   given(:answer_not_owned) { create(:answer) }
+
   describe 'Authenticated user' do
+  
     background { sign_in(user) }
+
     scenario 'deletes his own answer' do
       visit question_path(answer.question)
-      # save_and_open_page
       within('div', class: 'answer_box', text: answer.body) { click_on 'Delete' }
 
       expect(page).to have_content 'Your answer was deleted'

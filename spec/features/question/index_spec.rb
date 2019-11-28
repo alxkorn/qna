@@ -8,6 +8,7 @@ As a user
 I'd like be able to view the list of questions
 " do
   given!(:questions) { create_list(:question, 2) }
+
   scenario 'User tries to view the list of questions' do
     visit questions_path
 

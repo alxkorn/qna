@@ -7,6 +7,7 @@ I'd like to be able to view question and it's answers
 " do
   given(:question) { create(:question) }
   given(:answer) { create(:answer, question: question) }
+
   scenario "User views question and it's answers" do
     visit question_path(question)
 

@@ -6,10 +6,12 @@ As an authenticated user
 I'd like to be able to sign out
 " do
   given(:user) { create(:user) }
+
   background do
     sign_in(user) 
     visit root_path
-  end 
+  end
+
   scenario 'Authenticated user signs out' do
     click_on 'Logout'
 
