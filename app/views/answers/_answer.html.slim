@@ -1,7 +1,6 @@
-- if answer.persisted?
-  div.answer_box
-    li
-      = answer.body
-      br 
-        - if current_user&.owns?(answer)
-          = link_to 'Delete', answer_path(answer), method: :delete
+div.answer_box
+  li
+    = answer.body
+    br 
+      - if current_user&.owns?(answer)
+        = link_to 'Delete', answer_path(answer), method: :delete

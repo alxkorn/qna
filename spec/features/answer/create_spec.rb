@@ -17,14 +17,14 @@ I'd like to be able to answer question
       visit question_path(question)
     end
 
-    scenario 'answers the question' do
+    scenario 'answers the question', js: true do
       fill_in 'Body', with: 'Answer text'
 
       click_on 'Submit answer'
       expect(page).to have_content 'Answer text'
     end
 
-    scenario 'tries to answer the question with errors' do
+    scenario 'tries to answer the question with errors', js: true do
       click_on 'Submit answer'
       expect(page).to have_content "Body can't be blank"
     end
