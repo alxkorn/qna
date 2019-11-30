@@ -11,6 +11,6 @@ class User < ApplicationRecord
   def owns?(obj)
     return false if id.nil?
 
-    obj.try(:user_id) == id
+    obj&.user_id == id
   end
 end

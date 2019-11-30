@@ -25,12 +25,6 @@ RSpec.describe User, type: :model do
           expect(user.owns?(question_not_owned)).to eq false
         end
       end
-
-      context 'object does not respond to user_id' do
-        it 'returns false' do
-          expect(user.owns?(User.new)).to eq false
-        end
-      end
     end
 
     context 'user is new' do
