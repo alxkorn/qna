@@ -12,11 +12,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.owns?(@answer)
-      @answer.destroy
-      flash[:notice] = 'Your answer was deleted'
-    end
-    redirect_to @answer.question
+    return head :forbidden unless current_user&.owns?(@answer)
+
+    @answer.destroy
+    flash[:notice] = 'Your answer was deleted'
   end
 
   def update
