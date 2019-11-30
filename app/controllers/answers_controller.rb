@@ -20,6 +20,8 @@ class AnswersController < ApplicationController
   end
 
   def update
+    return head :forbidden unless current_user&.owns?(@answer)
+
     @answer.update(answer_params)
   end
 
