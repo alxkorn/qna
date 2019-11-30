@@ -94,6 +94,7 @@ RSpec.describe AnswersController, type: :controller do
         it 'does not change answer attributes' do
           expect do
             patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), format: :js }
+            answer.reload
           end.to_not change(answer, :body)
         end
 
@@ -104,6 +105,21 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'not owned answer'
+    context 'not owned answer' do
+      let!(:answer) { create(:answer) }
+
+      it 'does not change answer attributes' do
+        expect do
+          patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js }
+          answer.reload
+        end.to_not change(answer, :body)
+      end
+
+      it 'responds with forbidden' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+
+        expect(response.status).to eq 403
+      end
+    end
   end
 end
