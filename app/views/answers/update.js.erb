@@ -1,6 +1,6 @@
 $('<%= "#answer-#{@answer.id}-errors"%>').html('<%= render 'shared/errors', resource: @answer%>');
 
 <% unless @answer.errors.present? %>
-  $('<%= "#answer-#{@answer.id}"%>').html('<%= @answer.body %>');
+  $('<%= "#answer-#{@answer.id} #answer-body"%>').html('<%= @answer.body %>');
   $('<%= "#edit-answer-#{@answer.id}" %>').toggle()
 <% end %>

@@ -1,7 +1,7 @@
-div.answer_box
+div.answer_box id="answer-#{answer.id}"
   li
     div id="answer-#{answer.id}-errors"
-    span id="answer-#{answer.id}"
+    span id="answer-body"
       = answer.body
     br 
       - if current_user&.owns?(answer)
