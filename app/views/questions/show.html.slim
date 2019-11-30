@@ -10,8 +10,9 @@ ul
   div.answers_list
     = render @question.answers
 
-.answer-errors
+.new-answer-errors
   = render 'shared/errors', resource: @answer
-= render 'answers/form', answer: @answer || @question.answers.new
+.new-answer-form
+  = render 'answers/form', answer: @answer || @question.answers.new
 
 = link_to "Back", questions_path

@@ -1,6 +1,15 @@
 div.answer_box
   li
-    = answer.body
+    div id="answer-#{answer.id}-errors"
+    span id="answer-#{answer.id}"
+      = answer.body
     br 
       - if current_user&.owns?(answer)
         = link_to 'Delete', answer_path(answer), method: :delete
+        |  
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        = form_with model: answer, html: { id: "edit-answer-#{answer.id}", style: "display: none;" } do |f|
+          p
+            = f.label :body
+            = f.text_area :body
+          = f.submit 'Save'
