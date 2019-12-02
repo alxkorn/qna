@@ -1,9 +1,16 @@
 div.answer_box id="answer-#{answer.id}"
   li
     div id="answer-#{answer.id}-errors"
+    / - byebug
+    - if answer.best?
+      strong Best answer:
+      br
     span id="answer-body"
       = answer.body
-    br 
+    br
+      - if current_user&.owns?(answer.question) && !answer.best?
+        = link_to 'Set as best', set_best_answer_path(answer), method: :patch, remote: true
+        |  
       - if current_user&.owns?(answer)
         = link_to 'Delete', answer_path(answer), method: :delete, remote: true
         |  

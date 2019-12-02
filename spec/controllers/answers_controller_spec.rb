@@ -122,4 +122,59 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #set_best' do
+    let!(:question) { create(:question, user: user) }
+    let!(:answer1) { create(:answer, question: question, best: false) }
+    let!(:answer2) { create(:answer, question: question, best: true) }
+
+    context "user is the author of answer's question" do
+      before do
+        login(user)
+        patch :set_best, params: { id: answer1, format: :js }
+        answer1.reload
+        answer2.reload
+      end
+
+      it "sets chosen answer's best attribute to true" do
+        expect(answer1.best).to eq true
+      end
+
+      it "sets other answers' best attribute to false (within given question)" do
+        expect(answer2.best).to eq false
+      end
+
+      it 'renders set_best view' do
+        expect(response).to render_template :set_best
+      end
+    end
+
+    context "user is not the author of answer's question" do
+      let(:user_not_author) { create(:user) }
+
+      before { login(user_not_author) }
+
+      it "does not set chosen answer's best attribute to true" do
+        expect do
+          patch :set_best, params: { id: answer1, format: :js }
+          answer1.reload
+          answer2.reload
+        end.to_not change(answer1, :best)
+      end
+
+      it "does not set other answers' best attribute to false (within given question)" do
+        expect do
+          patch :set_best, params: { id: answer1, format: :js }
+          answer1.reload
+          answer2.reload
+        end.to_not change(answer2, :best)
+      end
+
+      it 'responds with forbidden' do
+        patch :set_best, params: { id: answer1, format: :js }
+
+        expect(response.status).to eq 403
+      end
+    end
+  end
 end

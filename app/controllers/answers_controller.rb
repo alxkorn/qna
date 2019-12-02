@@ -3,7 +3,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: %i[create]
-  before_action :set_answer, only: %i[destroy update]
+  before_action :set_answer, only: %i[destroy update set_best]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -22,6 +22,14 @@ class AnswersController < ApplicationController
     return head :forbidden unless current_user&.owns?(@answer)
 
     @answer.update(answer_params)
+  end
+
+  def set_best
+    @question = @answer.question
+    return head :forbidden unless current_user&.owns?(@question)
+    # byebug
+    @answer.set_best
+    # byebug
   end
 
   private
