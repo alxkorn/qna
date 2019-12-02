@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  resources :questions do
+  resources :questions, except: %i[edit] do
     resources :answers, shallow: true, only: %i[destroy create update]
   end
 
