@@ -14,22 +14,22 @@ I'd like to be able to felete my own question
   
     background { sign_in(user) }
 
-    scenario 'deletes his own answer' do
+    scenario 'deletes his own answer', js: true do
       visit question_path(answer.question)
       within('div', class: 'answer_box', text: answer.body) { click_on 'Delete' }
 
       expect(page).to have_content 'Your answer was deleted'
-      expect(page.find('div', class: 'answers_list')).to_not have_content answer.body
+      expect(page.find('div', class: 'answers_list', visible: false)).to_not have_content answer.body
     end
 
-    scenario 'tries to delete not his own answer' do
+    scenario 'tries to delete not his own answer', js: true do
       visit question_path(answer_not_owned.question)
 
       expect(page.find('div', class: 'answer_box', text: answer_not_owned.body)).to_not have_link('Delete')
     end
   end
 
-  scenario 'Unanthenticated user tries to delete answer' do
+  scenario 'Unanthenticated user tries to delete answer', js: true do
     visit question_path(answer.question)
 
     expect(page.find('div', class: 'answer_box', text: answer.body)).to_not have_link('Delete')

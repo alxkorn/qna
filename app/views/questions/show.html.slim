@@ -1,14 +1,33 @@
-h1= @question.title
+.question_box
+  h1.question-title
+    = @question.title
 
-p= @question.body
+  p.question-body
+    = @question.body
 
-- if current_user&.owns?(@question)
-  = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question'
+  - if current_user&.owns?(@question)
+    = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question'
+    |  
+    = link_to 'Edit', '#', class: 'edit-question-link'
+    br
+    .question-errors
+    = form_with model: @question, html: { id: "edit-question", style: "display: none;" } do |f|
+      p 
+        = f.label :title
+        = f.text_field :title
+      p
+        = f.label :body
+        = f.text_area :body
+      = f.submit 'Save'
 
 h2 Answers
-div.answers_list
-  ul
+ul
+  div.answers_list
     = render @question.answers
-= render 'answers/form', answer: @answer || @question.answers.new
+
+.new-answer-errors
+  = render 'shared/errors', resource: @answer
+.new-answer-form
+  = render 'answers/form', answer: @answer || @question.answers.new
 
 = link_to "Back", questions_path

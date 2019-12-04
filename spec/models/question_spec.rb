@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
@@ -9,5 +11,25 @@ RSpec.describe Question, type: :model do
   describe 'validations' do
     it { should validate_presence_of :title }
     it { should validate_presence_of :body }
+  end
+
+  describe 'best_answer' do
+    let!(:question) { create(:question) }
+
+    context 'question has best answer' do
+      let!(:answer) { create(:answer, question: question, best: true) }
+
+      it 'should return best answer' do
+        expect(question.best_answer).to eq answer
+      end
+    end
+
+    context "question doesn't have best answer" do
+      let!(:answer) { create(:answer, question: question, best: false) }
+
+      it 'should return nil' do
+        expect(question.best_answer).to eq nil
+      end
+    end
   end
 end
