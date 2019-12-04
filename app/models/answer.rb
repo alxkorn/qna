@@ -11,7 +11,7 @@ class Answer < ApplicationRecord
 
   def set_best
     transaction do
-      question.answers.find_by(best: true)&.update!(best: false)
+      question.best_answer&.update!(best: false)
       reload
       update!(best: true)
     end
