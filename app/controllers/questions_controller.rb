@@ -29,7 +29,8 @@ class QuestionsController < ApplicationController
   def update
     return head :forbidden unless current_user&.owns?(@question)
 
-    @question.update(question_params)
+    @question.files.attach(question_params[:files]) if question_params[:files]
+    @question.update(question_params.except(:files))
   end
 
   def destroy

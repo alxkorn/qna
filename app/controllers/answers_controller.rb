@@ -21,15 +21,15 @@ class AnswersController < ApplicationController
   def update
     return head :forbidden unless current_user&.owns?(@answer)
 
-    @answer.update(answer_params)
+    @answer.files.attach(answer_params[:files]) if answer_params[:files]
+    @answer.update(answer_params.except(:files))
   end
 
   def set_best
     @question = @answer.question
     return head :forbidden unless current_user&.owns?(@question)
-    # byebug
+  
     @answer.set_best
-    # byebug
   end
 
   private
