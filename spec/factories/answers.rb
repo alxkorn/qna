@@ -7,5 +7,9 @@ FactoryBot.define do
     trait :invalid do
       body { nil }
     end
+
+    trait :with_attached_file do
+      files {[fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test1.png'), 'image/png')]}
+    end
   end
 end

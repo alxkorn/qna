@@ -70,6 +70,16 @@ RSpec.describe QuestionsController, type: :controller do
       it 'saves a new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
+
+      it 'attaches files to questions' do
+        @file1 = fixture_file_upload('files/test1.png', 'image/png')
+        @file2 = fixture_file_upload('files/test2.png', 'image/png')
+
+        post :create, params: { question: attributes_for(:question, files: [@file1, @file2]) }
+
+        expect(assigns(:question).files.count).to eq 2
+      end
+
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
@@ -92,7 +102,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     describe 'owned question' do
-      let!(:question) { create(:question, user: user) }
+      let!(:question) { create(:question, :with_attached_file, user: user) }
 
       context 'with valid attributes' do
         it 'assigns requested question to @question' do
@@ -107,6 +117,15 @@ RSpec.describe QuestionsController, type: :controller do
 
           expect(question.title).to eq 'new title'
           expect(question.body).to eq 'new body'
+        end
+
+        it 'adds files to answer' do
+          @file1 = fixture_file_upload('files/test1.png', 'image/png')
+          @file2 = fixture_file_upload('files/test2.png', 'image/png')
+
+          expect do
+            patch :update, params: { id: question, question: { files: [@file1, @file2] } }, format: :js
+          end.to change(question.files, :count).by(2)
         end
 
         it 'renders update view' do

@@ -15,6 +15,15 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).user).to eq user
       end
 
+      it 'attaches files to answer' do
+        @file1 = fixture_file_upload('files/test1.png', 'image/png')
+        @file2 = fixture_file_upload('files/test2.png', 'image/png')
+
+        post :create, params: { question_id: question, answer: attributes_for(:answer, files: [@file1, @file2]), format: :js }
+
+        expect(assigns(:answer).files.count).to eq 2
+      end
+
       it 'assigns requested question to @question' do
         post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         expect(assigns(:question)).to eq question
@@ -75,13 +84,22 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user) }
 
     context 'owned answer' do
-      let!(:answer) { create(:answer, question: question, user: user) }
+      let!(:answer) { create(:answer, :with_attached_file, question: question, user: user ) }
 
       context 'with valid attributes' do
         it 'changes answer attributes' do
           patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
           answer.reload
           expect(answer.body).to eq 'new body'
+        end
+
+        it 'adds files to answer' do
+          @file1 = fixture_file_upload('files/test1.png', 'image/png')
+          @file2 = fixture_file_upload('files/test2.png', 'image/png')
+
+          expect do
+            patch :update, params: { id: answer, answer: { files: [@file1, @file2] } }, format: :js
+          end.to change(answer.files, :count).by(2)
         end
 
         it 'renders update view' do
