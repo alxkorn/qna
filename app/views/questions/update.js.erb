@@ -1,7 +1,8 @@
-$('.question-errors').html('<%= render 'shared/errors', resource: @question%>');
+$('.question-errors').html('<%= render 'shared/errors', resource: @question %>');
 
 <% unless @question.errors.present? %>
   $('.question-title').html('<%= @question.title %>')
   $('.question-body').html('<%= @question.body %>')
+  $('.question_box .files').html('<%= render 'shared/files', resource: @question %>')
   $('#edit-question').toggle()
 <% end %>

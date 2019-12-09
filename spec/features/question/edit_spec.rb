@@ -10,11 +10,12 @@ I'd like to be able to edit my question
   given(:question_not_owned) { create(:question) }
 
   describe 'Authenticated user' do
-    background { sign_in(user) }
+    background do 
+      sign_in(user)
+      visit question_path(question)
+    end
 
     scenario 'edits his question', js: true do
-      visit question_path(question)
-
       within '.question_box' do
         click_on 'Edit'
         fill_in 'Title', with: 'title edited'
@@ -30,9 +31,19 @@ I'd like to be able to edit my question
       end
     end
 
-    scenario 'edits his question with errors', js: true do
-      visit question_path(question)
+    scenario 'edits his question attaching file', js: true do
+      within '.question_box' do
+        click_on 'Edit'
 
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'edits his question with errors', js: true do
       within '.question_box' do
         click_on 'Edit'
         fill_in 'Title', with: ''
@@ -56,7 +67,6 @@ I'd like to be able to edit my question
 
   scenario 'Unauthenticated user can not edit question', js: true do
     visit question_path(question)
-
     within '.question_box' do
       expect(page).to_not have_link 'Edit'
     end

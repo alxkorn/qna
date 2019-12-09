@@ -24,6 +24,16 @@ I'd like to be able to answer question
       expect(page).to have_content 'Answer text'
     end
 
+    scenario 'creates answer with attached files', js: true do
+      fill_in 'Body', with: 'Answer text'
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on "Submit answer"
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
     scenario 'tries to answer the question with errors', js: true do
       click_on 'Submit answer'
       expect(page).to have_content "Body can't be blank"

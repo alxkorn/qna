@@ -7,6 +7,8 @@ div.answer_box id="answer-#{answer.id}"
       br
     span id="answer-body"
       = answer.body
+    div.files
+      = render 'shared/files', resource: answer
     br
       - if current_user&.owns?(answer.question) && !answer.best?
         = link_to 'Set as best', set_best_answer_path(answer), method: :patch, remote: true
@@ -19,4 +21,7 @@ div.answer_box id="answer-#{answer.id}"
           p
             = f.label :body
             = f.text_area :body
+          p
+            = f.label :files
+            = f.file_field :files, multiple: true, direct_upload: true
           = f.submit 'Save'

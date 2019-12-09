@@ -3,4 +3,8 @@
     = f.label :body
     = f.text_area :body, class: 'new-answer-body'
 
+  p 
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+
   = f.submit 'Submit answer'

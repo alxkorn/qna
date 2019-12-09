@@ -1,9 +1,12 @@
-.question_box
+.question_box id="question-#{@question.id}"
   h1.question-title
     = @question.title
 
   p.question-body
     = @question.body
+  
+  .files
+    = render 'shared/files', resource: @question
 
   - if current_user&.owns?(@question)
     = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question'
@@ -18,6 +21,10 @@
       p
         = f.label :body
         = f.text_area :body
+
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
 
 h2 Answers
