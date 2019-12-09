@@ -40,6 +40,6 @@ ul
 .new-answer-errors
   = render 'shared/errors', resource: @answer
 .new-answer-form
-  = render 'answers/form', answer: @answer || @question.answers.new
+  = render 'answers/form', answer: @answer
 
 = link_to "Back", questions_path

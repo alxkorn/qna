@@ -1,27 +1,33 @@
-div.answer_box id="answer-#{answer.id}"
-  li
-    div id="answer-#{answer.id}-errors"
-    / - byebug
-    - if answer.best?
-      strong Best answer:
+- if answer.persisted?
+  div.answer_box id="answer-#{answer.id}"
+    li
+      div id="answer-#{answer.id}-errors"
+      / - byebug
+      - if answer.best?
+        strong Best answer:
+        br
+      span id="answer-body"
+        = answer.body
+      div.files
+        = render 'shared/files', resource: answer
+
+      .links
+        p Links:
+        ul
+          = render answer.links
       br
-    span id="answer-body"
-      = answer.body
-    div.files
-      = render 'shared/files', resource: answer
-    br
-      - if current_user&.owns?(answer.question) && !answer.best?
-        = link_to 'Set as best', set_best_answer_path(answer), method: :patch, remote: true
-        |  
-      - if current_user&.owns?(answer)
-        = link_to 'Delete', answer_path(answer), method: :delete, remote: true
-        |  
-        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-        = form_with model: answer, html: { id: "edit-answer-#{answer.id}", style: "display: none;" } do |f|
-          p
-            = f.label :body
-            = f.text_area :body
-          p
-            = f.label :files
-            = f.file_field :files, multiple: true
-          = f.submit 'Save'
+        - if current_user&.owns?(answer.question) && !answer.best?
+          = link_to 'Set as best', set_best_answer_path(answer), method: :patch, remote: true
+          |  
+        - if current_user&.owns?(answer)
+          = link_to 'Delete', answer_path(answer), method: :delete, remote: true
+          |  
+          = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          = form_with model: answer, html: { id: "edit-answer-#{answer.id}", style: "display: none;" } do |f|
+            p
+              = f.label :body
+              = f.text_area :body
+            p
+              = f.label :files
+              = f.file_field :files, multiple: true
+            = f.submit 'Save'
