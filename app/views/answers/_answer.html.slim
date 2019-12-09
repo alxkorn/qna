@@ -23,5 +23,5 @@ div.answer_box id="answer-#{answer.id}"
             = f.text_area :body
           p
             = f.label :files
-            = f.file_field :files, multiple: true, direct_upload: true
+            = f.file_field :files, multiple: true
           = f.submit 'Save'
