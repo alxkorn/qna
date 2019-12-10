@@ -8,9 +8,10 @@
   .files
     = render 'shared/files', resource: @question
 
-  .links
-    p Links:
-    ul
+  
+  p Links:
+  ul
+    .links
       = render @question.links
 
   - if current_user&.owns?(@question)

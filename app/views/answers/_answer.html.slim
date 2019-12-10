@@ -11,9 +11,10 @@
       div.files
         = render 'shared/files', resource: answer
 
-      .links
-        p Links:
-        ul
+      
+      p Links:
+      ul
+        .links
           = render answer.links
       br
         - if current_user&.owns?(answer.question) && !answer.best?

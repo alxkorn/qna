@@ -21,6 +21,5 @@ RSpec.describe Link, type: :model do
     it 'should return false if link is not a gist' do
       expect(link_not_gist.gist?).to be_falsey
     end
-
   end
 end

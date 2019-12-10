@@ -6,6 +6,7 @@
 $ ->
   loadGists()
   $(document).on 'turbolinks:load', loadGists
+  $('.submit-button').on 'click', loadGists
 
 loadGists = ->
   $('.gist').each ->
