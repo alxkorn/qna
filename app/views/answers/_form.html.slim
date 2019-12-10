@@ -8,11 +8,8 @@
     = f.file_field :files, multiple: true
   p Links:
   p
-      = f.fields_for :links do |l|
-        p
-          = l.label :name, 'Link name'
-          = l.text_field :name
-        p
-          = l.label :url
-          = l.text_field :url
+    = f.fields_for :links do |link|
+      = render 'links/links_fields', f: link
+    .add_links
+      = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
   = f.submit 'Submit answer'
