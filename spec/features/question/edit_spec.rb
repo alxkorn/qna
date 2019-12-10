@@ -8,7 +8,8 @@ I'd like to be able to edit my question
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given(:question_not_owned) { create(:question) }
-
+  given(:google) { 'https://www.google.com' }
+  
   describe 'Authenticated user' do
     background do 
       sign_in(user)
@@ -41,6 +42,19 @@ I'd like to be able to edit my question
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'edits his question adding link', js: true do
+      within '.question_box' do
+        click_on 'Edit'
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: google
+        click_on 'Save'
+
+        expect(page).to have_link 'My link', href: google
+      end
     end
 
     scenario 'edits his question with errors', js: true do

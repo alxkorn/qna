@@ -31,6 +31,12 @@
       p
         = f.label :files
         = f.file_field :files, multiple: true
+
+      p
+        = f.fields_for :links do |link|
+          = render 'links/links_fields', f: link
+        .add_links
+          = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
       = f.submit 'Save'
 
 h2 Answers

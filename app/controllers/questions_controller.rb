@@ -34,6 +34,7 @@ class QuestionsController < ApplicationController
 
     @question.files.attach(question_params[:files]) if question_params[:files]
     @question.update(question_params.except(:files))
+    @question.reload
   end
 
   def destroy

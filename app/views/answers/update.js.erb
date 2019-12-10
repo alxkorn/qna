@@ -3,5 +3,6 @@ $('<%= "#answer-#{@answer.id}-errors"%>').html('<%= render 'shared/errors', reso
 <% unless @answer.errors.present? %>
   $('<%= "#answer-#{@answer.id} #answer-body"%>').html('<%= @answer.body %>');
   $('<%= "#answer-#{@answer.id} .files" %>').html('<%= render 'shared/files', resource: @answer %>')
+  $('<%= "#answer-#{@answer.id} .links" %>').html('<%= render @answer.links %>')
   $('<%= "#edit-answer-#{@answer.id}" %>').toggle()
 <% end %>

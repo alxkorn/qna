@@ -23,6 +23,7 @@ class AnswersController < ApplicationController
 
     @answer.files.attach(answer_params[:files]) if answer_params[:files]
     @answer.update(answer_params.except(:files))
+    @answer.reload
   end
 
   def set_best
