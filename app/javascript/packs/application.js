@@ -10,6 +10,7 @@ require("channels")
 require('jquery')
 require('answer/edit')
 require('question/edit')
+require('cocoon')
 
 require("@rails/activestorage").start()
 
