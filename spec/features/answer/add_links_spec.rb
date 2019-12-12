@@ -16,6 +16,8 @@ feature 'User can add links to answer', "
 
     fill_in 'Body', with: 'Answer text'
 
+    click_on 'Add link'
+
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: gist_url
 
@@ -38,6 +40,8 @@ feature 'User can add links to answer', "
     visit question_path(question)
 
     fill_in 'Body', with: 'Answer text'
+
+    click_on 'Add link'
 
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: 'invalid url'

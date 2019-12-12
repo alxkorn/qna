@@ -19,6 +19,7 @@ class Answer < ApplicationRecord
       question.best_answer&.update!(best: false)
       reload
       update!(best: true)
+      question.reward&.update!(user: user)
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
@@ -30,8 +32,10 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'set_best' do
+    let!(:user) { create(:user) }
     let!(:question) { create(:question) }
-    let!(:answer1) { create(:answer, question: question, best: false) }
+    let!(:reward1) { create(:reward, :with_image, question: question) }
+    let!(:answer1) { create(:answer, question: question, best: false, user: user) }
     let!(:answer2) { create(:answer, question: question, best: true) }
 
     context 'answer is best already' do
@@ -41,7 +45,7 @@ RSpec.describe Answer, type: :model do
           answer2.reload
         end.to_not change(answer2, :best)
       end
-    end 
+    end
 
     context 'answer is not best currently' do
       it "should change answer's best attribute to true" do
@@ -56,6 +60,13 @@ RSpec.describe Answer, type: :model do
         answer2.reload
 
         expect(answer2.best).to eq false
+      end
+
+      it "should assign answer's user to question's reward" do
+        expect do
+          answer1.set_best
+          reward1.reload
+        end.to change(reward1, :user_id).from(nil).to(user.id)
       end
     end
   end
