@@ -9,8 +9,14 @@ RSpec.describe Vote, type: :model do
   end
 
   describe 'validations' do
+    let(:vote) { create(:vote, :for_question) }
+
+    describe 'numericality' do
+      subject { vote }
+      it { should validate_numericality_of(:value).only_integer.is_less_than_or_equal_to(1).is_greater_than_or_equal_to(-1) }
+    end
+    
     describe 'uniqueness' do
-      let(:vote) { create(:vote, :for_question) }
       subject { vote }
       it { should validate_uniqueness_of(:user_id).scoped_to(:votable_id, :votable_type) }
     end
