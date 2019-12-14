@@ -23,12 +23,13 @@ class AnswersController < ApplicationController
 
     @answer.files.attach(answer_params[:files]) if answer_params[:files]
     @answer.update(answer_params.except(:files))
+    @answer.reload
   end
 
   def set_best
     @question = @answer.question
     return head :forbidden unless current_user&.owns?(@question)
-  
+
     @answer.set_best
   end
 
@@ -39,7 +40,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[id _destroy name url])
   end
 
   def set_answer

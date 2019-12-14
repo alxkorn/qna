@@ -5,6 +5,11 @@
 
   p 
     = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
-
-  = f.submit 'Submit answer'
+    = f.file_field :files, multiple: true
+  p Links:
+  p
+    / = f.fields_for :links do |link|
+    /   = render 'links/links_fields', f: link
+    .add_links
+      = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
+  = f.submit 'Submit answer', id: "submit-button"

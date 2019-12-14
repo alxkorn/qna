@@ -8,6 +8,12 @@
   .files
     = render 'shared/files', resource: @question
 
+  
+  p Links:
+  ul
+    .links
+      = render @question.links
+
   - if current_user&.owns?(@question)
     = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question'
     |  
@@ -24,7 +30,13 @@
 
       p
         = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
+        = f.file_field :files, multiple: true
+
+      p
+        / = f.fields_for :links do |link|
+        /   = render 'links/links_fields', f: link
+        .add_links
+          = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
       = f.submit 'Save'
 
 h2 Answers
@@ -32,9 +44,10 @@ ul
   div.answers_list
     = render @question.answers
 
+h2 New Answer
 .new-answer-errors
   = render 'shared/errors', resource: @answer
 .new-answer-form
-  = render 'answers/form', answer: @answer || @question.answers.new
+  = render 'answers/form', answer: @answer
 
 = link_to "Back", questions_path

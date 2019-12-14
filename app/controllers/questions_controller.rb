@@ -8,10 +8,14 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = @question.answers.new
+    @answer.links.new
   end
 
   def new
     @question = current_user.questions.new
+    @question.links.new
+    @question.build_reward
   end
 
   def edit; end
@@ -31,6 +35,7 @@ class QuestionsController < ApplicationController
 
     @question.files.attach(question_params[:files]) if question_params[:files]
     @question.update(question_params.except(:files))
+    @question.reload
   end
 
   def destroy
@@ -48,6 +53,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, reward_attributes: [:name, :image],
+                                     files: [], links_attributes: %i[id _destroy name url])
   end
 end

@@ -1,0 +1,9 @@
+li
+  - if link.gist?
+    .gist data-src="#{link.url}.json"
+    / script src="#{link.url}.js"
+  = link_to link.name, link.url
+
+  - if current_user&.owns?(link.linkable)
+    |  
+    = link_to 'Delete', link_path(link), method: :delete, remote: true

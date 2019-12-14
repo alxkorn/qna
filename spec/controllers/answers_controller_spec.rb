@@ -165,6 +165,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'renders set_best view' do
         expect(response).to render_template :set_best
       end
+
     end
 
     context "user is not the author of answer's question" do
