@@ -1,0 +1,17 @@
+.rating
+  strong Raiting: 
+    | 
+    = resource.rating
+
+p
+
+- if user_signed_in? && !current_user&.owns?(resource)
+  span.vote_links style = "#{'display: none' if current_user.voted?(resource)}"
+    = link_to 'Upvote', polymorphic_path(resource, action: :vote_up), method: :post, remote: true, data: {type: :json}
+    | 
+    = link_to 'Downvote', polymorphic_path(resource, action: :vote_down), method: :post, remote: true, data: {type: :json}
+  | 
+  = link_to 'Cancel vote', polymorphic_path(resource, action: :vote_clear), method: :post, remote: true, data: {type: :json},
+            style: "#{'display: none' unless current_user.voted?(resource)}",
+            class: 'cancel_vote_link'
+
