@@ -1,17 +1,15 @@
 .rating
-  strong Raiting: 
-    | 
-    = resource.rating
+  = "Rating: #{resource.rating}" 
 
-p
+br
 
 - if user_signed_in? && !current_user&.owns?(resource)
   span.vote_links style = vote_style(current_user, resource)
-    = link_to 'Upvote', polymorphic_path(resource, action: :upvote), method: :post, remote: true, data: { type: :json }
-    | 
-    = link_to 'Downvote', polymorphic_path(resource, action: :downvote), method: :post, remote: true, data: { type: :json }
-  | 
-  = link_to 'Cancel vote', polymorphic_path(resource, action: :cancel_vote), method: :post, remote: true, data: { type: :json },
+    = link_to 'Upvote', polymorphic_path(resource, action: :upvote), method: :post, remote: true, data: { type: :json }, class: 'upvote_link'
+    |  
+    = link_to 'Downvote', polymorphic_path(resource, action: :downvote), method: :post, remote: true, data: { type: :json }, class: 'downvote_link'
+  |  
+  = link_to 'Cancel vote', polymorphic_path(resource, action: :cancel_vote), method: :delete, remote: true, data: { type: :json },
             style: cancel_vote_style(current_user, resource),
             class: 'cancel_vote_link'
 

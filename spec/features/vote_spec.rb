@@ -52,7 +52,7 @@ feature 'User can vote for question and answer', "
         click_on 'Upvote'
         rating = page.find('.rating')
 
-        expect(rating).to have_content question.rating + 1
+        expect(rating).to have_content 1
         expect(page).to have_link 'Cancel vote'
         expect(page).to_not have_link 'Downvote'
         expect(page).to_not have_link 'Upvote'
@@ -62,7 +62,7 @@ feature 'User can vote for question and answer', "
         click_on 'Upvote'
         rating = page.find('.rating')
 
-        expect(rating).to have_content answer.rating + 1
+        expect(rating).to have_content 1
         expect(page).to have_link 'Cancel vote'
         expect(page).to_not have_link 'Downvote'
         expect(page).to_not have_link 'Upvote'
@@ -74,7 +74,7 @@ feature 'User can vote for question and answer', "
         click_on 'Downvote'
         rating = page.find('.rating')
 
-        expect(rating).to have_content question.rating - 1
+        expect(rating).to have_content(-1)
         expect(page).to have_link 'Cancel vote'
         expect(page).to_not have_link 'Downvote'
         expect(page).to_not have_link 'Upvote'
@@ -84,7 +84,7 @@ feature 'User can vote for question and answer', "
         click_on 'Downvote'
         rating = page.find('.rating')
 
-        expect(rating).to have_content answer.rating - 1
+        expect(rating).to have_content(-1)
         expect(page).to have_link 'Cancel vote'
         expect(page).to_not have_link 'Downvote'
         expect(page).to_not have_link 'Upvote'
@@ -97,7 +97,7 @@ feature 'User can vote for question and answer', "
         click_on 'Cancel vote'
         rating = page.find('.rating')
 
-        expect(rating).to have_content question.rating
+        expect(rating).to have_content 0
         expect(page).to_not have_link 'Cancel vote'
         expect(page).to have_link 'Downvote'
         expect(page).to have_link 'Upvote'
@@ -108,7 +108,7 @@ feature 'User can vote for question and answer', "
         click_on 'Cancel vote'
         rating = page.find('.rating')
 
-        expect(rating).to have_content answer.rating
+        expect(rating).to have_content 0
         expect(page).to_not have_link 'Cancel vote'
         expect(page).to have_link 'Downvote'
         expect(page).to have_link 'Upvote'

@@ -36,6 +36,6 @@ module Voted
   end
 
   def render_json
-    render json: { rating: @resource.rating, selector: "##{@resource.class.to_s.downcase}-#{@resource.id}" }
+    render json: { rating: @resource.rating, selector: "##{@resource.class.to_s.downcase}-#{@resource.id}" }, data: {voting: true}
   end
 end
