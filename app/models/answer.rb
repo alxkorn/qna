@@ -9,7 +9,6 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   has_many :links, dependent: :destroy, as: :linkable
-  # has_many :votes, dependent: :destroy, as: :votable
 
   has_many_attached :files
 
