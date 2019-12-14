@@ -4,4 +4,18 @@ document.addEventListener('turbolinks:load', function() {
       var answerId = $(this).data('answerId')
       $('form#edit-answer-'+answerId).toggle()
   })
+
+  // $('form.new-answer').on('ajax:success', function(e) {
+  //   var answer = e.detail[0]
+
+  //   $('.answers_list').append('<p>' + answer.body + '</p>')
+  // })
+  //   .on('ajax:error', function(e) {
+  //     var errors = e.detail[0]
+  //     $('.new-answer-errors').html('')
+  //     $.each(errors, function(index, value) {
+  //       $('.new-answer-errors').append('<p>' + value + '</p>')
+  //     })
+    
+  //   })
 })
