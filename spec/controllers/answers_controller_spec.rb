@@ -6,6 +6,8 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
 
+  it_should_behave_like 'Voted', :answer
+
   describe 'POST #create' do
     before { login(user) }
     context 'with valid attributes' do

@@ -3,11 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+
+  it_should_behave_like 'Votable', :question
+
   describe 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should belong_to(:user) }
     it { should have_many(:links).dependent(:destroy) }
     it { should have_one(:reward).dependent(:destroy) }
+    it { should have_many(:votes).dependent(:destroy) }
   end
 
   describe 'validations' do

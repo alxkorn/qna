@@ -11,11 +11,8 @@
       div.files
         = render 'shared/files', resource: answer
 
-      
-      p Links:
-      ul
-        .links
-          = render answer.links
+      = render 'shared/links', resource: answer
+      = render 'shared/votes', resource: answer
       br
         - if current_user&.owns?(answer.question) && !answer.best?
           = link_to 'Set as best', set_best_answer_path(answer), method: :patch, remote: true

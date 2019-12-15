@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[show index]
   before_action :set_question, only: %i[show edit update destroy]
+
   def index
     @questions = Question.all
   end
@@ -53,7 +56,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, reward_attributes: [:name, :image],
-                                     files: [], links_attributes: %i[id _destroy name url])
+    params.require(:question).permit(:title, :body, reward_attributes: %i[name image],
+                                                    files: [], links_attributes: %i[id _destroy name url])
   end
 end

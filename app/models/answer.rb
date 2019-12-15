@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Answer < ApplicationRecord
+
+  include Votable
+
   default_scope { order(best: :desc) }
 
   belongs_to :question
