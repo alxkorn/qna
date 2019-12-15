@@ -4,7 +4,7 @@ module Voted
   extend ActiveSupport::Concern
 
   included do
-    before_action :authenticate_user!
+    before_action :authenticate_user!, only: %i[upvote downvote cancel_vote]
     before_action :set_resource, only: %i[upvote downvote cancel_vote]
   end
 
@@ -36,6 +36,6 @@ module Voted
   end
 
   def render_json
-    render json: { rating: @resource.rating, selector: "##{@resource.class.to_s.downcase}-#{@resource.id}" }, data: {voting: true}
+    render json: { rating: @resource.rating, id: @resource.id, type: @resource.class.to_s.downcase }
   end
 end

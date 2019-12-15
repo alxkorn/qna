@@ -18,7 +18,7 @@ module Votable
   end
 
   def rating
-    votes.pluck(:value).sum
+    votes.sum(:value)
   end
 
   def voted_by?(user)
