@@ -3,7 +3,7 @@
 
 br
 
-- if user_signed_in? && !current_user&.owns?(resource)
+- if current_user && !current_user&.owns?(resource)
   span.vote_links style = vote_style(current_user, resource)
     = link_to 'Upvote', polymorphic_path(resource, action: :upvote), method: :post, remote: true, data: { type: :json }, class: 'upvote_link'
     |  

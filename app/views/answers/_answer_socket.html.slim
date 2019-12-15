@@ -1,0 +1,57 @@
+- if answer.persisted?
+  div.answer_box id="answer-#{answer.id}"
+    li
+      div id="answer-#{answer.id}-errors"
+      / - byebug
+      - if answer.best?
+        strong Best answer:
+        br
+      span id="answer-body"
+        = answer.body
+      div.files
+        - if answer&.files.attached?
+          - answer.files.each do |file|
+              p
+                = link_to file.filename.to_s, url_for(file)
+                |   
+                - if user&.owns?(answer)
+                    = link_to 'Delete', file_path(file), method: :delete, remote: true
+      
+
+      = render 'shared/links', resource: answer
+
+      .rating
+        = "Rating: #{answer.rating}" 
+
+      br
+      - if user && !user&.owns?(answer)
+        span.vote_links style = vote_style(user, answer)
+          = link_to 'Upvote', polymorphic_path(answer, action: :upvote), method: :post, remote: true, data: { type: :json }, class: 'upvote_link'
+          |  
+          = link_to 'Downvote', polymorphic_path(answer, action: :downvote), method: :post, remote: true, data: { type: :json }, class: 'downvote_link'
+        |  
+        = link_to 'Cancel vote', polymorphic_path(answer, action: :cancel_vote), method: :delete, remote: true, data: { type: :json },
+                  style: cancel_vote_style(user, answer),
+                  class: 'cancel_vote_link'
+
+      br
+        - if user&.owns?(answer.question) && !answer.best?
+          = link_to 'Set as best', set_best_answer_path(answer), method: :patch, remote: true
+          |  
+        - if user&.owns?(answer)
+          = link_to 'Delete', answer_path(answer), method: :delete, remote: true
+          |  
+          = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          = form_with model: answer, html: { id: "edit-answer-#{answer.id}", style: "display: none;" } do |f|
+            p
+              = f.label :body
+              = f.text_area :body
+            p
+              = f.label :files
+              = f.file_field :files, multiple: true
+            p
+              / = f.fields_for :links do |link|
+              /   = render 'links/links_fields', f: link
+              .add_links
+                = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
+            = f.submit 'Save'
