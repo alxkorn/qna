@@ -1,0 +1,5 @@
+var selector = '<%= "##{@commentable.type}-#{@commentable.id}"%>'
+$(selector +' .new_comment_errors').html('<%= render 'shared/errors', resource: @comment%>');
+<% if @comment.persisted? %>
+  $(selector + ' .new_comment_body').val('');
+<% end %>

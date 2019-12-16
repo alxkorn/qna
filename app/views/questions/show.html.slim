@@ -37,6 +37,8 @@
           = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
       = f.submit 'Save'
 
+  = render 'shared/comments', resource: @question
+
 h2 Answers
 ul
   div.answers_list

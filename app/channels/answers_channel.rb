@@ -3,7 +3,6 @@
 class AnswersChannel < ApplicationCable::Channel
   def follow(data)
     stream_from "question-#{data['id']}"
-    Rails.logger.info data['user_id']
   end
 
   def get_answer_html(data)

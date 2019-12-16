@@ -1,0 +1,12 @@
+.comments
+    Strong Comments
+    ul
+      = render resource.comments
+
+.new_comment
+  .new_comment_errors
+  = form_for [resource, Comment.new], remote: true do |f|
+    p
+      = f.label :body
+      = f.text_area :body, class: 'new_comment_body'
+    = f.submit "Submit comment"

@@ -2,14 +2,12 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create('AnswersChannel', {
   connected () {
-    const path = window.location.pathname;
-    if (path.match(/questions\/\d/)) {
-      const elems = path.split('/');
-      const questionId = elems[elems.length - 1];
+    var cur_path = window.location.pathname;
+    if (cur_path.match(/questions\/\d/)) {
+      var questionId = [...cur_path.split('/')].pop()
       this.perform('follow', { id: questionId });
     }
   },
-
   received (data) {
     if(data.event == 'answer created') {
       this.perform('get_answer_html', {answer_id: data.answer_id, question_id: data.question_id, user_id: getCookie('user_id')})
