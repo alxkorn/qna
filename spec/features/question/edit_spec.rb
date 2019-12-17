@@ -27,8 +27,10 @@ I'd like to be able to edit my question
         expect(page).to_not have_content(question.title)
         expect(page).to have_content('title edited')
         expect(page).to have_content('body edited')
-        expect(page).to_not have_selector('textarea')
-        expect(page).to_not have_selector('input')
+        within '.edit_question' do
+          expect(page).to_not have_selector('textarea')
+          expect(page).to_not have_selector('input')
+        end
       end
     end
 
