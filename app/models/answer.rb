@@ -3,12 +3,14 @@
 class Answer < ApplicationRecord
 
   include Votable
+  include Commentable
 
   default_scope { order(best: :desc) }
 
   belongs_to :question
   belongs_to :user
   has_many :links, dependent: :destroy, as: :linkable
+  has_many :comments, as: :commentable, dependent: :destroy
 
   has_many_attached :files
 

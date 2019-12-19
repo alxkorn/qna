@@ -18,24 +18,27 @@
     = link_to 'Edit', '#', class: 'edit-question-link'
     br
     .question-errors
-    = form_with model: @question, html: { id: "edit-question", style: "display: none;" } do |f|
-      p 
-        = f.label :title
-        = f.text_field :title
-      p
-        = f.label :body
-        = f.text_area :body
+    .edit_question
+      = form_with model: @question, html: { id: "edit-question", style: "display: none;" } do |f|
+        p 
+          = f.label :title
+          = f.text_field :title
+        p
+          = f.label :body
+          = f.text_area :body
 
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
 
-      p
-        / = f.fields_for :links do |link|
-        /   = render 'links/links_fields', f: link
-        .add_links
-          = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
-      = f.submit 'Save'
+        p
+          / = f.fields_for :links do |link|
+          /   = render 'links/links_fields', f: link
+          .add_links
+            = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
+        = f.submit 'Save'
+
+  = render 'shared/comments', resource: @question, user: current_user
 
 h2 Answers
 ul

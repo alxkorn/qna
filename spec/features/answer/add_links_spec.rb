@@ -6,15 +6,16 @@ feature 'User can add links to answer', "
   I'd like to be able to add links
 " do
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given!(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/alxkorn/26076b45ec43c8e4ea10bb5d32d1f7fc' }
   given(:google) { 'https://www.google.com' }
 
   scenario 'User adds link when give answer', js: true do
     sign_in(user)
     visit question_path(question)
-
-    fill_in 'Body', with: 'Answer text'
+    within '.new-answer-form' do
+      fill_in 'Body', with: 'Answer text'
+    end
 
     click_on 'Add link'
 

@@ -21,16 +21,18 @@
           = link_to 'Delete', answer_path(answer), method: :delete, remote: true
           |  
           = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-          = form_with model: answer, html: { id: "edit-answer-#{answer.id}", style: "display: none;" } do |f|
-            p
-              = f.label :body
-              = f.text_area :body
-            p
-              = f.label :files
-              = f.file_field :files, multiple: true
-            p
-              / = f.fields_for :links do |link|
-              /   = render 'links/links_fields', f: link
-              .add_links
-                = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
-            = f.submit 'Save'
+          .edit_answer
+            = form_with model: answer, html: { id: "edit-answer-#{answer.id}", style: "display: none;" } do |f|
+              p
+                = f.label :body
+                = f.text_area :body
+              p
+                = f.label :files
+                = f.file_field :files, multiple: true
+              p
+                / = f.fields_for :links do |link|
+                /   = render 'links/links_fields', f: link
+                .add_links
+                  = link_to_add_association 'Add link', f, :links, partial: 'links/links_fields'
+              = f.submit 'Save'
+      = render 'shared/comments', resource: answer, user: current_user

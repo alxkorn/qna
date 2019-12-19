@@ -21,7 +21,7 @@ RSpec.shared_examples 'Voted' do |resource_type|
       it 'it responds with json' do
         post :upvote, params: { id: resource.id }
         resource.reload
-        expected_json = { rating: resource.rating, selector: "##{resource.class.to_s.downcase}-#{resource.id}" }.to_json
+        expected_json = { rating: resource.rating, id: resource.id, type: resource.type }.to_json
 
         expect(response.body).to include expected_json
       end
@@ -61,7 +61,7 @@ RSpec.shared_examples 'Voted' do |resource_type|
       it 'it responds with json' do
         post :downvote, params: { id: resource.id }
         resource.reload
-        expected_json = { rating: resource.rating, selector: "##{resource.class.to_s.downcase}-#{resource.id}" }.to_json
+        expected_json = { rating: resource.rating, id: resource.id, type: resource.type }.to_json
 
         expect(response.body).to include expected_json
       end
@@ -96,7 +96,7 @@ RSpec.shared_examples 'Voted' do |resource_type|
       it 'it responds with json' do
         delete :cancel_vote, params: { id: resource.id }
         resource.reload
-        expected_json = { rating: resource.rating, selector: "##{resource.class.to_s.downcase}-#{resource.id}" }.to_json
+        expected_json = { rating: resource.rating, id: resource.id, type: resource.type }.to_json
 
         expect(response.body).to include expected_json
       end
