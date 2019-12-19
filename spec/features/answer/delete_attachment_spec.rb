@@ -22,7 +22,6 @@ I'd like to be able to delete attached file
       within("#answer-#{answer.id}") do
         page.find('.files').click_on 'Delete'
 
-        # save_and_open_page
         expect(page).to_not have_link fname
       end
     end

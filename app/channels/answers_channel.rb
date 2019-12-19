@@ -13,9 +13,15 @@ class AnswersChannel < ApplicationCable::Channel
            end
     answer = Answer.find(data['answer_id'])
 
-    answer_html = ApplicationController.render(
-      partial: 'answers/answer_socket',
-      locals: { answer: answer, user: user }
+    # answer_html = ApplicationController.render(
+    #   partial: 'answers/answer',
+    #   locals: { answer: answer, user: user }
+    # )
+
+    answer_html = ApplicationController.render_with_signed_in_user(
+      user,
+      partial: 'answers/answer',
+      locals: { answer: answer }
     )
 
     data_back = { event: 'created answer html', answer_html: answer_html }

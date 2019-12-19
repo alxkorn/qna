@@ -29,7 +29,6 @@ feature 'User can add links to answer', "
     end
 
     click_on 'Submit answer'
-    save_and_open_page
 
     within '.answers_list' do
       expect(page).to have_link 'My gist', href: gist_url
