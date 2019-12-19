@@ -6,7 +6,7 @@
 - if user
   .new_comment
     .new_comment_errors
-    = form_for [resource, Comment.new], remote: true do |f|
+    = form_with model: [resource, Comment.new], remote: true do |f|
       p
         = f.label :body, 'Comment'
         = f.text_area :body, class: 'new_comment_body'

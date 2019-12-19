@@ -151,10 +151,10 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'not owned question' do
       let!(:question) { create(:question) }
 
-      it 'responds with forbidden' do
+      it 'redirects to root url' do
         patch :update, params: { id: question, question: { body: 'new body' }, format: :js }
 
-        expect(response.status).to eq 403
+        expect(response).to redirect_to root_url
       end
 
       it 'does not change question attributes' do
@@ -188,9 +188,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
 
-      it 'redirects to index' do
+      it 'redirects root url' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to questions_path
+        expect(response).to redirect_to root_url
       end
     end
   end

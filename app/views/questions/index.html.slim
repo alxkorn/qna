@@ -2,4 +2,6 @@ h1 Questions
 .questions
   ul
     = render @questions
-p= link_to 'Ask question', new_question_path
+
+- if can?(:create, Question)
+  p= link_to 'Ask question', new_question_path
