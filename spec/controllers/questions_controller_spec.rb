@@ -151,10 +151,10 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'not owned question' do
       let!(:question) { create(:question) }
 
-      it 'redirects to root url' do
+      it 'responds with forbidden' do
         patch :update, params: { id: question, question: { body: 'new body' }, format: :js }
 
-        expect(response).to redirect_to root_url
+        expect(response.status).to eq 403
       end
 
       it 'does not change question attributes' do

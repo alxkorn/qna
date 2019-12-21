@@ -29,10 +29,10 @@ RSpec.describe FilesController, type: :controller do
         expect { delete :destroy, params: { id: answer.files.first, format: :js } }.to_not change(answer.files, :count)
       end
 
-      it 'redirects to root url' do
+      it 'responds with forbidden' do
         delete :destroy, params: { id: answer.files.first, format: :js }
 
-        expect(response).to redirect_to root_url
+        expect(response.status).to eq 403
       end
     end
   end
