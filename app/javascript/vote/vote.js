@@ -1,7 +1,11 @@
 
-$(document).on('ajax:success', '.vote_links', function(e) {handleVote(e)})
-$(document).on('ajax:success', '.cancel_vote_link', function(e) {handleVote(e)})
+document.addEventListener('turbolinks:load', function() {
+  $('.question_box').on('ajax:success', '.vote_links', function(e) {handleVote(e)})
+  $('.question_box').on('ajax:success', '.cancel_vote_link', function(e) {handleVote(e)})
 
+  $('.answers_list').on('ajax:success', '.vote_links', function(e) {handleVote(e)})
+  $('.answers_list').on('ajax:success', '.cancel_vote_link', function(e) {handleVote(e)})
+})
 
 function handleVote(e) {
   let arr = ['Upvote', 'Downvote', 'Cancel vote'];
