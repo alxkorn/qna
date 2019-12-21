@@ -77,6 +77,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'responds with forbidden' do
         delete :destroy, params: { id: answer, format: :js }
+
         expect(response.status).to eq 403
       end
     end

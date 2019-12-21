@@ -2,6 +2,8 @@ class FilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_file, only: %i[destroy]
 
+  authorize_resource
+
   def destroy
     @record = @file.record
     return head :forbidden unless current_user&.owns?(@record)

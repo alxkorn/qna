@@ -35,7 +35,7 @@ RSpec.shared_examples 'Voted' do |resource_type|
       end
 
       it 'responds with forbidden' do
-        post :upvote, params: { id: resource.id }
+        post :upvote, params: { id: resource.id, format: :js }
 
         expect(response.status).to eq 403
       end
@@ -75,7 +75,7 @@ RSpec.shared_examples 'Voted' do |resource_type|
       end
 
       it 'responds with forbidden' do
-        post :downvote, params: { id: resource.id }
+        post :downvote, params: { id: resource.id, format: :js }
 
         expect(response.status).to eq 403
       end
@@ -110,7 +110,7 @@ RSpec.shared_examples 'Voted' do |resource_type|
       end
 
       it 'responds with forbidden' do
-        delete :cancel_vote, params: { id: resource.id }
+        delete :cancel_vote, params: { id: resource.id, format: :js }
 
         expect(response.status).to eq 403
       end
