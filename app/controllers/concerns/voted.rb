@@ -9,21 +9,21 @@ module Voted
   end
 
   def upvote
-    return head :forbidden if @resource.voted_by?(current_user) || current_user.owns?(@resource)
+    authorize! :upvote, @resource
 
     @resource.upvote_by(current_user)
     render_json
   end
 
   def downvote
-    return head :forbidden if @resource.voted_by?(current_user) || current_user.owns?(@resource)
+    authorize! :downvote, @resource
 
     @resource.downvote_by(current_user)
     render_json
   end
 
   def cancel_vote
-    return head :forbidden unless @resource.voted_by?(current_user)
+    authorize! :cancel_vote, @resource
 
     @resource.cancel_vote_of(current_user)
     render_json
