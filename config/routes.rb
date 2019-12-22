@@ -33,7 +33,9 @@ Rails.application.routes.draw do
         get :exceptme, on: :collection
       end
 
-      resources :questions, only: %i[index show]
+      resources :questions, only: %i[index show] do
+        resources :answers, shallow: true, only: %i[index show]
+      end
     end
   end
 
