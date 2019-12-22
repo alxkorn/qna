@@ -11,6 +11,7 @@ describe 'Profiles API', type: :request do
     it_behaves_like 'API Authorizable' do
       let(:method) { :get }
       let(:api_path) { '/api/v1/profiles/me' }
+      let(:req_options) { { params: { access_token: create(:access_token).token }, headers: headers } }
     end
 
     context 'authorized' do
@@ -44,6 +45,7 @@ describe 'Profiles API', type: :request do
     let(:api_path) { '/api/v1/profiles/exceptme' }
 
     it_behaves_like 'API Authorizable' do
+      let(:req_options) { { params: { access_token: create(:access_token).token }, headers: headers } }
       let(:method) { :get }
     end
 

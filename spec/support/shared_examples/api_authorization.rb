@@ -6,17 +6,19 @@ shared_examples_for 'API Authorizable' do
       expect(response.status).to eq 401
     end
     it 'returns 401 status if access_token is invalid' do
-      do_request(method, api_path, params: { access_token: '1234' }, headers: headers)
+      options = {params: { access_token: '1234' }, headers: headers}
+      # options[:params] = options[:params].merge(add_attr) if add_attr
+      do_request(method, api_path, options)
 
       expect(response.status).to eq 401
     end
   end
 
   context 'authorized' do
-    
+
     it 'returns 200 status' do
-      do_request(method, api_path, params: { access_token: create(:access_token).token }, headers: headers)
-      
+      do_request(method, api_path, req_options)
+
       expect(response).to be_successful
     end
   end
