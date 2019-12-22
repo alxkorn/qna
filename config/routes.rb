@@ -30,9 +30,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :profiles, only: [] do
         get :me, on: :collection
+        get :exceptme, on: :collection
       end
 
-      resources :questions, only: %i[index]
+      resources :questions, only: %i[index show]
     end
   end
 
