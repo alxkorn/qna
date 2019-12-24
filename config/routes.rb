@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  use_doorkeeper
   root to: 'questions#index'
 
   devise_for :users
@@ -24,6 +25,19 @@ Rails.application.routes.draw do
   resources :files, only: %i[destroy]
   resources :links, only: %i[destroy]
   resources :rewards, only: %i[index]
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+        get :exceptme, on: :collection
+      end
+
+      resources :questions, only: %i[index show create update destroy] do
+        resources :answers, shallow: true, only: %i[index show create update destroy]
+      end
+    end
+  end
 
   mount ActionCable.server => '/cable'
 end
