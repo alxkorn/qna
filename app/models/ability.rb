@@ -58,5 +58,9 @@ class Ability
     can :subscribe, Question do |question|
       !question.subscribed?(user)
     end
+
+    can :unsubscribe, Question do |question|
+      question.subscribed?(user)
+    end
   end
 end

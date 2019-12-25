@@ -39,12 +39,14 @@ describe Ability do
 
       context 'subscriptions' do
         it { should be_able_to :subscribe, create(:question) }
+        it { should_not be_able_to :unsubscribe, create(:question) }
 
         context 'subscribed already' do
           let(:question) { create(:question) }
           before { question.subscribe(user) }
 
           it { should_not be_able_to :subscribe, question }
+          it { should be_able_to :unsubscribe, question }
         end
       end
 
