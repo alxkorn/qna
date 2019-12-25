@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-
   it_should_behave_like 'Votable', :question
   it_should_behave_like 'Commentable', :question
 
@@ -14,6 +13,8 @@ RSpec.describe Question, type: :model do
     it { should have_one(:reward).dependent(:destroy) }
     it { should have_many(:votes).dependent(:destroy) }
     it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
+    it { should have_many(:subscribed_users).through(:subscriptions) }
   end
 
   describe 'validations' do
@@ -54,6 +55,59 @@ RSpec.describe Question, type: :model do
     it 'calls ReputationJob' do
       expect(ReputationJob).to receive(:perform_later).with(question)
       question.save!
+    end
+  end
+
+  context 'subscriptions' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    describe 'subscribe' do
+      context 'user is not subscribed' do
+        it 'creates subscription record' do
+          expect{ question.subscribe(user) }.to change(question.subscribed_users, :count).by(1)
+        end
+      end
+
+      context 'user is subscribed already' do
+        let!(:subscription) { create(:subscription, user: user, question: question) }
+        it 'does not create subscription record' do
+          # byebug
+          expect { question.subscribe(user) }.to_not change(question.subscribed_users, :count)
+        end
+      end
+    end
+
+    describe 'unsubscribe' do
+      context 'user is subscribed' do
+        let!(:subscription) { create(:subscription, user: user, question: question) }
+
+        it 'deletes subscription record' do
+          expect { question.unsubscribe(user) }.to change(question.subscribed_users, :count).by(-1)
+        end
+      end
+
+      context 'user is not subscribed' do
+        it 'does not delete subscription record' do
+          expect { question.unsubscribe(user) }.to_not change(question.subscribed_users, :count)
+        end
+      end
+    end
+
+    describe 'subscribed?' do
+      context 'user is not subscribed' do
+        it 'returns false' do
+          expect(question.subscribed?(user)).to eq false
+        end
+      end
+
+      context 'user is subscribed' do
+        let!(:subscription) { create(:subscription, user: user, question: question) }
+
+        it 'returns true' do
+          expect(question.subscribed?(user)).to eq true
+        end
+      end
     end
   end
 end

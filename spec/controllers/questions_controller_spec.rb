@@ -77,6 +77,12 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question).files.count).to eq 2
       end
 
+      it 'subscribes author to question' do
+        expect do
+          post :create, params: { question: attributes_for(:question) }
+        end.to change(user.subscriptions, :count).by(1)
+      end
+
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
