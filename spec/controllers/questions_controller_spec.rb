@@ -77,12 +77,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question).files.count).to eq 2
       end
 
-      # it 'subscribes author to question' do
-      #   expect do
-      #     post :create, params: { question: attributes_for(:question) }
-      #   end.to change(user.subscriptions, :count).by(1)
-      # end
-
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
@@ -197,6 +191,50 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects root url' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to root_url
+      end
+    end
+  end
+
+  describe 'POST #subscribe' do
+    let(:question) { create(:question) }
+    context 'Unauthorized' do
+      context 'guest' do
+        it 'does not allow to subscribe' do
+          post :subscribe, params: { id: question, format: :js }
+
+          expect(response).to_not be_successful
+        end
+      end
+
+      context 'user' do
+        let(:user) { create(:user) }
+
+        before do
+          question.subscribe(user)
+          login(user)
+        end
+
+        it 'does not allow to subscribe' do
+          post :subscribe, params: { id: question, format: :js }
+
+          expect(response).to_not be_successful
+        end
+      end
+    end
+    
+    context 'Authorized' do
+      let(:user) { create(:user) }
+      before do 
+        login(user)
+        post :subscribe, params: { id: question, format: :js }
+      end
+
+      it 'assigns @question' do
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'renders subscribe view' do
+        expect(response).to render_template :subscribe
       end
     end
   end

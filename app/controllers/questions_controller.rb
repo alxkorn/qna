@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   include Voted
 
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_question, only: %i[show edit update destroy]
+  before_action :set_question, only: %i[show edit update destroy subscribe]
   after_action :publish_question, only: [:create]
 
   authorize_resource
@@ -22,6 +22,12 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new
     @question.links.new
     @question.build_reward
+  end
+
+  def subscribe
+    @question.subscribe(current_user)
+
+    flash['notice'] = 'You have been successfully subscribed'
   end
 
   def edit; end

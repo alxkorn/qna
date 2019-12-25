@@ -4,7 +4,10 @@
 
   p.question-body
     = @question.body
-  
+
+  .question-subscriptions
+    = render 'shared/subscriptions', resource: @question
+
   .files
     = render 'shared/files', resource: @question
 

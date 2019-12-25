@@ -37,6 +37,17 @@ describe Ability do
       it { should be_able_to :destroy, create(:question, user: user) }
       it { should_not be_able_to :destroy, create(:question, user: other) }
 
+      context 'subscriptions' do
+        it { should be_able_to :subscribe, create(:question) }
+
+        context 'subscribed already' do
+          let(:question) { create(:question) }
+          before { question.subscribe(user) }
+
+          it { should_not be_able_to :subscribe, question }
+        end
+      end
+
       context 'votes' do
         let(:question_owned) { create(:question, user: user) }
 

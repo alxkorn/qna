@@ -54,5 +54,9 @@ class Ability
     can :destroy, Link do |link|
       user.owns?(link.linkable)
     end
+
+    can :subscribe, Question do |question|
+      !question.subscribed?(user)
+    end
   end
 end
