@@ -19,6 +19,8 @@ class Answer < ApplicationRecord
   validates :body, presence: true
   validates :best, uniqueness: { scope: :question_id }, if: :best?
 
+  after_create :send_notification
+
   def set_best
     transaction do
       question.best_answer&.update!(best: false)
@@ -26,5 +28,11 @@ class Answer < ApplicationRecord
       update!(best: true)
       question.reward&.update!(user: user)
     end
+  end
+
+  private
+
+  def send_notification
+    NotifyNewAnswerJob.perform_later(self)
   end
 end

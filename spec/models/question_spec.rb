@@ -62,17 +62,22 @@ RSpec.describe Question, type: :model do
     let!(:user) { create(:user) }
     let!(:question) { create(:question) }
 
+    describe 'creating question automatically subscribes author to it' do
+      it 'creates subscription' do
+        expect { create(:question, user: user) }.to change(user.subscriptions, :count).by(1)
+      end
+    end
+
     describe 'subscribe' do
       context 'user is not subscribed' do
         it 'creates subscription record' do
-          expect{ question.subscribe(user) }.to change(question.subscribed_users, :count).by(1)
+          expect { question.subscribe(user) }.to change(question.subscribed_users, :count).by(1)
         end
       end
 
       context 'user is subscribed already' do
         let!(:subscription) { create(:subscription, user: user, question: question) }
         it 'does not create subscription record' do
-          # byebug
           expect { question.subscribe(user) }.to_not change(question.subscribed_users, :count)
         end
       end

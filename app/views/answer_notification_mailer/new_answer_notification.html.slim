@@ -1,0 +1,7 @@
+h1 New answer notification
+p = @greeting + ", new answer was submitted for question"
+= link_to @question.title, url_for(@question)
+
+h2 Answer:
+br
+= @answer.body
