@@ -37,7 +37,7 @@ class Question < ApplicationRecord
   end
 
   def subscribed?(user)
-    subscribed_users.include? user
+    subscribed_users.include?(user)
   end
 
   private
