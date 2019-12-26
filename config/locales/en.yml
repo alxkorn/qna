@@ -36,3 +36,9 @@ en:
       public: 'Access your public data'
       write: 'Update your information'
       admin: 'Change your preferences'
+  daily_digest_mailer:
+    digest:
+      subject: 'Daily Digest from Qna'
+  answer_notification_mailer:
+    notify_about_new_answer:
+      subject: 'New answer notification'

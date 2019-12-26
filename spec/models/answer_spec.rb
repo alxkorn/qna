@@ -76,4 +76,13 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe 'subscriptions' do
+    let(:answer) { build(:answer) }
+
+    it 'causes subscribes to recieve notification after question created' do
+      expect(NotifyNewAnswerJob).to receive(:perform_later).with(answer)
+      answer.save!
+    end
+  end
 end

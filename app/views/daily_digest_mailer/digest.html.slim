@@ -1,0 +1,7 @@
+h1 Daily digest from QnA
+
+h2 That's what users were interested in in the last 24 hours
+
+ul
+  - @questions.each do |question|
+    li = link_to question.title, url_for(question)

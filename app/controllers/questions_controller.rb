@@ -16,6 +16,11 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.links.new
+    # byebug
+    if user_signed_in?
+      @subscription = Subscription.find_by(question: @question, user: current_user)
+      # byebug
+    end
   end
 
   def new
