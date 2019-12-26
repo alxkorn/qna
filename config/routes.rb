@@ -21,8 +21,9 @@ Rails.application.routes.draw do
   end
   
   resources :questions, except: %i[edit], concerns: :votable do
-    post :subscribe, on: :member
-    delete :unsubscribe, on: :member
+    # post :subscribe, on: :member
+    # delete :unsubscribe, on: :member
+    resources :subscriptions, shallow: true, only: %i[create destroy]
     resources :comments, only: %i[create]
     resources :answers, shallow: true, only: %i[destroy create update], concerns: :votable do
       resources :comments, only: %i[create]

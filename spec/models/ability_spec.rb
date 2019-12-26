@@ -38,15 +38,16 @@ describe Ability do
       it { should_not be_able_to :destroy, create(:question, user: other) }
 
       context 'subscriptions' do
-        it { should be_able_to :subscribe, create(:question) }
-        it { should_not be_able_to :unsubscribe, create(:question) }
+        it { should be_able_to :create, Subscription }
+        # it { should_not be_able_to :unsubscribe, create(:question) }
 
         context 'subscribed already' do
           let(:question) { create(:question) }
-          before { question.subscribe(user) }
+          let(:subscription) { create(:subscription, user: user, question: question) }
+          # before { question.subscribe(user) }
 
-          it { should_not be_able_to :subscribe, question }
-          it { should be_able_to :unsubscribe, question }
+          # it { should_not be_able_to :subscribe, question }
+          it { should be_able_to :destroy, subscription }
         end
       end
 

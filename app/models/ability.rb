@@ -29,7 +29,7 @@ class Ability
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
 
-    can :destroy, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer, Subscription], user_id: user.id
 
     can :upvote, [Question, Answer] do |question|
       !user.owns?(question) && !question.voted_by?(user)
@@ -55,12 +55,18 @@ class Ability
       user.owns?(link.linkable)
     end
 
-    can :subscribe, Question do |question|
-      !question.subscribed?(user)
-    end
+    # can :subscribe, Question do |question|
+    #   !question.subscribed?(user)
+    # end
 
-    can :unsubscribe, Question do |question|
-      question.subscribed?(user)
-    end
+    # can :unsubscribe, Question do |question|
+    #   question.subscribed?(user)
+    # end
+
+    can :create, Subscription
+
+    # can :destroy, Subscription do |sub|
+    #   sub.question.subscribed?(user)
+    # end
   end
 end

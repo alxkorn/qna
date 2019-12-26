@@ -1,4 +1,5 @@
+/ - byebug
 - if resource.subscribed?(current_user)
-  = link_to 'Unsubscribe', unsubscribe_question_path(resource), remote: true, method: :delete
+  = link_to 'Unsubscribe', subscription_path(subscription), remote: true, method: :delete
 - elsif user_signed_in?
-  = link_to 'Subscribe', subscribe_question_path(resource), remote: true, method: :post
+  = link_to 'Subscribe', question_subscriptions_path(resource), remote: true, method: :post

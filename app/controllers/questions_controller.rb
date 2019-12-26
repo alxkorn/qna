@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   include Voted
 
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_question, only: %i[show edit update destroy subscribe unsubscribe]
+  before_action :set_question, only: %i[show edit update destroy]
   after_action :publish_question, only: [:create]
 
   authorize_resource
@@ -16,24 +16,17 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.links.new
+    # byebug
+    if user_signed_in?
+      @subscription = Subscription.find_by(question: @question, user: current_user)
+      # byebug
+    end
   end
 
   def new
     @question = current_user.questions.new
     @question.links.new
     @question.build_reward
-  end
-
-  def subscribe
-    @question.subscribe(current_user)
-
-    flash['notice'] = 'You have been successfully subscribed'
-  end
-
-  def unsubscribe
-    @question.unsubscribe(current_user)
-
-    flash['notice'] = 'You have been successfully unsubscribed'
   end
 
   def edit; end

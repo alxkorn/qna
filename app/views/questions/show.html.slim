@@ -6,7 +6,7 @@
     = @question.body
 
   .question-subscriptions
-    = render 'shared/subscriptions', resource: @question
+    = render 'shared/subscriptions', resource: @question, subscription: @subscription
 
   .files
     = render 'shared/files', resource: @question
